@@ -13,7 +13,7 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 SECRET_KEY = 'django-insecure-hap1$x(^$&n(e#-q^b#3i(x^sad!q4^bgy5o!&_l8=*@xq-vbu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -110,7 +110,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(PROJECT_PATH, "static/"),]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 MEDIAFILES_DIRS = [os.path.join(PROJECT_PATH, 'media'),]
 
