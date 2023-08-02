@@ -1,0 +1,28 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="slider">
+            {% for category in categories %}
+
+                <div class="category-card" onclick='location.href="{% url 'blog_category' category.name %}";'>
+                    <div class="category-header">
+                        <h2 class="cat-header">
+                            {{ category.name }}
+                        </h2>
+                        <p class="cat-caption">{{ category.caption }}</p>
+                    </div>
+                    <div class="cat-slide">
+                        <img src="{{ category.image.url }}">
+                    </div>
+                </div>
+            {% endfor %}
+
+            <button class="btn btn-next">></button>
+            <button class="btn btn-prev"><</button>
+        </div>
+    </div>
+
+
+{% endblock %}

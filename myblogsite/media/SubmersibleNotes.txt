@@ -1,0 +1,13 @@
+submersible regulation
+
+- Title 46 CFR Subchapter T (parts 175-187)
+- 33 U.S.C. 1221
+- Less than 6 passengers is considered an "uninspected vessel" (46 U.S.C. 2101(42)
+	- Must meet 46 CFR Subchapter C - Uninspected Vessels
+	- 33 CFR Part 155 - Oil Pollution
+	- 33 CFR Part 159 - Marine Sanitation Devices
+	- 33 CFR Subchapter S - Boating Safety
+	- 46 CFR part 15 - Manning Requirements
+	- Can only be permitted in U.S. passeger operations if designed and constructed to a recognized industry standard.
+- All operations manuals and vessel designs must be approeved by the Commanding Officer, MSC
+	- If vessel has pressure hull of design other than that permitted by the American Society of Mechanical Engineers (ASME), the proposal will be forwarded by the MSC to COmmandant (G-MTH-4)

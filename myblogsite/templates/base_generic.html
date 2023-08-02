@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>My Blog Website!</title>
+</head>
+<link rel="stylesheet" href="{% static 'style1.css' %}">
+
+<body id="body">
+    <div class="nav-bar sticky" id="navbar">
+        <a href="{% url 'homepage' %}">Home</a>
+        <a href="{% url 'blog_index' %}">Blog</a>
+    </div>
+    {% block content %}
+        Hello this is the content section
+    {% endblock %}
+
+
+<script src="{% static 'app.js' %}"></script>
+<script src="{% static 'carousel.js' %}"></script>
+</body>
+</html>

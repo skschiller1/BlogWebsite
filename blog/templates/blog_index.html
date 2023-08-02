@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="blog-container">
+        <h1>Blog Posts</h1>
+        {% for post in posts %}
+        <div class="blog-post">
+            <h2><a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a></h2>
+            <small>{{ post.created_on.date }}
+                Categories:
+                {% for category in post.categories.all %}
+                <a href="{% url 'blog_category' category.name %}">{{ category.name }},</a>
+                {% endfor %}
+            </small>
+            <p>{{ post.body | linebreaks | slice:":400" }}...</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

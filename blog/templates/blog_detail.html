@@ -1,0 +1,52 @@
+{% extends 'base_generic.html' %}
+
+
+{% block content %}
+<div class="blog-container">
+    <div class="blog-post">
+    <h1>{{ post.title }}</h1>
+        <div class="blog-post-subheader">
+            <small>
+                {{ post.created_on }}
+                Categories:
+                {% for category in post.categories.all %}
+                <a href="{% url 'blog_category' category.name %}">
+                    {{ category.name }},
+                </a>
+                {% endfor %}
+            </small>
+
+
+        </div>
+    <div class="blog-post-content">
+        <img class="blog-post-image" src="{{ post.image.url }}">
+        <p>{{ post.body | linebreaksbr }}</p>
+    </div>
+    <div class="blog-post-comments">
+        <h3>Leave a comment!</h3>
+        <form action="/blog/{{ post.pk }}/" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.author }}
+            </div>
+            <div class="form-group">
+                {{ form.body }}
+            </div>
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+        <h3>Comments:</h3>
+        {% for comment in comments %}
+        <hr>
+            <p>
+                On {{ comment.created_on.date }}
+                <b>{{ comment.author }}</b> wrote:
+            </p>
+            <p>
+                {{ comment.body }}
+            </p>
+        {% endfor %}
+    </div>
+
+    </div>
+</div>
+{% endblock %}
