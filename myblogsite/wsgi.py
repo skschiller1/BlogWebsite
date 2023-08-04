@@ -12,9 +12,6 @@ from django.core.wsgi import get_wsgi_application
 from dotenv import load_dotenv
 
 
-project_folder = os.path.expanduser('~/BlogWebsite/')
-load_dotenv(os.path.join(project_folder, '.env'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myblogsite.settings')
-SECRET_KEY = os.getenv('SECRET_KEY')
 
 application = get_wsgi_application()
