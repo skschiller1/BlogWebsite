@@ -1,0 +1,157 @@
+.nav-bar {
+background-color: rgba(137, 207, 240,.2);
+height: 60px;
+
+}
+
+#navbar a {
+float: left;
+display: block;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+font-size: 17px;
+}
+
+.sticky {
+position: fixed;
+top: 0;
+width: 100%;
+}
+
+body {
+background-image: url('IMG_5010.jpg');
+background-position: top center;
+background-attachment: scroll;
+width: 100%;
+background-size: cover;
+background-repeat: no-repeat;
+margin: 0;
+display: grid;
+place-items: center;
+}
+
+.container {
+display: flex;
+flex-wrap: wrap;
+padding-top: 150px;
+background-color: rgba(0,0,0,0);
+}
+
+.slider {
+width: 850px;
+height: 600px;
+position: relative;
+overflow: hidden;
+margin-top: 0px;
+}
+
+.slider:hover {
+filter: brightness(120%) saturate(120%);
+cursor: pointer;
+}
+
+.category-card {
+background-color: rgba(137, 207, 240,0);
+text-align: center;
+margin: auto;
+width: 100%;
+max-width: 850px;
+height: 580px;
+position: absolute;
+transition: all 0.5s;
+}
+
+.category-header {
+border-top-left-radius: 30px 100px;
+background-color: rgba(255,255,255,.8);
+height: 80px;
+margin-bottom: 10px;
+position: relative;
+}
+
+.cat-header {
+text-align: center;
+position: relative;
+margin: 0px;
+padding: 0px;
+}
+
+.cat-caption {
+position: relative;
+}
+
+.cat-slide img {
+max-width: 850px;
+height: 510px;
+width: 100%;
+object-fit: cover;
+position: relative;
+bottom: 0%;
+border-bottom-right-radius: 25px 25px;
+}
+
+.blog-container {
+background-color: rgba(137, 207, 240,0);
+margin: 60px 50px 50px 60px;
+padding: 20px 50px 20px;
+text-align: center;
+}
+
+.blog-post {
+background-color: rgba(224, 240, 255,.98);
+padding: 1px 10px 5px 10px;
+text-align: left;
+border-radius: 5px;
+margin-top: 5px;
+display:grid;
+}
+
+.blog-post a {
+text-decoration: none;
+color: black;
+}
+
+.blog-post p {
+text-align: justify;
+}
+
+.blog-post-subheader {
+display: grid;
+font-size: 14pt;
+}
+
+.blog-post-image {
+width: 40%;
+float: left;
+margin: 25px;
+object-position: center top;
+}
+
+.btn {
+position: absolute;
+width: 40px;
+height: 40px;
+padding: 10px;
+border: none;
+border-radius: 50%;
+z-index: 10px;
+cursor: pointer;
+background-color: #fff;
+font-size: 18px;
+}
+
+.btn:active {
+transform: scale(1.1);
+}
+
+.btn-prev {
+top: 50%;
+left: 2%;
+}
+
+.btn-next {
+top: 50%;
+right: 2%;
+}
