@@ -6,7 +6,7 @@ from myblogsite import settings
 class Category(models.Model):
     name = models.CharField(max_length=20)
     caption = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='media')
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT)
 
 
 class Post(models.Model):
@@ -15,7 +15,7 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     categories = models.ManyToManyField("category", related_name="posts")
-    image = models.ImageField(upload_to='media')
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT)
 
     class Meta:
         ordering = ['-created_on']
