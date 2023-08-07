@@ -6,7 +6,7 @@ from myblogsite import settings
 class Category(models.Model):
     name = models.CharField(max_length=20)
     caption = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='../static')
+    image = models.ImageField(upload_to='images')
 
 
 class Post(models.Model):
