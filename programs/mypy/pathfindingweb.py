@@ -1,6 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from math import sin, cos, asin, sqrt
+# import matplotlib.pyplot as plt
 import geopandas as gpd
 import pandas as pd
 import time
@@ -258,7 +258,7 @@ def processing(db, plott):
             fc, dc = cost_function(db, new_line, 17.1)
             route_list.append(Route(f"Route{i}", fc, dc, new_line, db))
 
-        fig, (ax1, ax2) = plt.subplots(1, 2)
+        # fig, (ax1, ax2) = plt.subplots(1, 2)
 
         if len(route_list) > 5:
             maxk = 5
@@ -283,9 +283,9 @@ def processing(db, plott):
                 latd.append(np.rad2deg(db[int(loc)].lat))
                 longd.append(np.rad2deg(db[int(loc)].long))
                 ap = db[loc]
-                if plott:
-                    ax1.annotate(ap.name, [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
-                    ax1.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
+                # if plott:
+                #     ax1.annotate(ap.name, [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
+                #     ax1.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
 
             latf = []
             longf = []
@@ -293,9 +293,9 @@ def processing(db, plott):
                 latf.append(np.rad2deg(db[int(loc)].lat))
                 longf.append(np.rad2deg(db[int(loc)].long))
                 ap = db[loc]
-                if plott:
-                    ax2.annotate(f"{ap.name}", [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
-                    ax2.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
+                # if plott:
+                #     ax2.annotate(f"{ap.name}", [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
+                #     ax2.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
 
             # convert airport geocordinates into a geopandas dataframes to plot routes on world map!
             if k == 0:
@@ -307,24 +307,24 @@ def processing(db, plott):
                                            crs="EPSG:4326")
                 ap_fuel = gpd.GeoDataFrame(fuel_df, geometry=gpd.points_from_xy(-fuel_df.Longitude, fuel_df.Latitude),
                                            crs="EPSG:4326")
-                if plott:
-                    ad = ap_dist.plot(ax=ax, color="blue", markersize=5)
-                    af = ap_fuel.plot(ax=ax, color="green", markersize=5)
+                # if plott:
+                #     ad = ap_dist.plot(ax=ax, color="blue", markersize=5)
+                #     af = ap_fuel.plot(ax=ax, color="green", markersize=5)
 
-            if plott:
-                ax1.plot(longd, latd, color=chelp("blue", k, maxk - 1), label=f"d{k + 1}")
-                ax2.plot(longf, latf, color=chelp("green", k, maxk - 1), label=f"f{k + 1}")
+            # if plott:
+            #     ax1.plot(longd, latd, color=chelp("blue", k, maxk - 1), label=f"d{k + 1}")
+            #     ax2.plot(longf, latf, color=chelp("green", k, maxk - 1), label=f"f{k + 1}")
 
         # ax.set_xlim([min(dist_df.Longitude) * .9, max(dist_df.Longitude) * 1.1])
         # ax.set_ylim([min(dist_df.Latitude) * .9, max(dist_df.Latitude) * 1.1])
-        if plott:
-            ax1.invert_xaxis()
-            ax2.invert_xaxis()
-            ax1.set_title("Minimized distance routes")
-            ax2.set_title("Minimized fuel cost routes")
-            ax1.legend()
-            ax2.legend()
-            plt.show()
+        # if plott:
+        #     ax1.invert_xaxis()
+        #     ax2.invert_xaxis()
+        #     ax1.set_title("Minimized distance routes")
+        #     ax2.set_title("Minimized fuel cost routes")
+        #     ax1.legend()
+        #     ax2.legend()
+        #     plt.show()
 
         # data output section! WHOOP!
         print("\nTop 5 Shortest Routes")
