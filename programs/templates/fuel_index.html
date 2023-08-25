@@ -1,0 +1,37 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+
+
+{% block content %}
+    <div class="program-input">
+        Select states you would like to consider airports in:
+        <form action="fuel_index" method="post">
+            {% csrf_token %}
+            {{ stateform }}
+            <input type="submit" value="Submit" name="state-submit">
+        </form>
+    </div>
+<div class="states-list">
+    {% for st in testingState %}
+    <p>{{ st.name }}</p>
+    {% endfor %}
+
+</div>
+<form action="fuel_index" method="post">
+    {% csrf_token %}
+    {{ airportform }}
+    <input type="submit" value="Submit" name="airport-submit">
+</form>
+
+<h1>My Leafletjs Map</h1>
+<!-- Specify the map and it's dimensions -->
+<div id="map" style="width: 960px; height: 500px"></div>
+
+<!-- Get the leaflet JavaScript file -->
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+<script src="{% static 'map.js' %}"></script>
+
+{% endblock %}

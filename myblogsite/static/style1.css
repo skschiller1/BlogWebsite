@@ -14,6 +14,58 @@ text-decoration: none;
 font-size: 17px;
 }
 
+/* Dropdown Button */
+.dropbtn {
+float: left;
+display: block;
+color: #f2f2f2;
+background-color: rgba(137, 207, 240,0);
+text-align: center;
+padding: 15px 16px;
+text-decoration: none;
+font-size: 17px;
+font-family: "Times New Roman";
+border: none;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+cursor: pointer;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+display: none;
+position: absolute;
+float: none;
+overflow: auto;
+background-color: rgba(137, 207, 240,.5);
+min-width: 100px;
+
+z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  text-decoration: none;
+
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+margin-top: 60px;
+display:block;
+}
+
 .sticky {
 position: fixed;
 top: 0;
@@ -154,4 +206,13 @@ left: 2%;
 .btn-next {
 top: 50%;
 right: 2%;
+}
+
+.program-input {
+margin-top: 100px;
+}
+
+.state {
+height: 100px;
+width: 100%
 }
