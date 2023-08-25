@@ -25,3 +25,7 @@ class AirportForm(forms.Form):
         self.fields["endAirport"] = forms.ChoiceField(
             choices=[(o.id, str(o.name)) for o in Airport.objects.filter(state=f" {state2}")])
 
+
+class CallsignForm(forms.Form):
+    callsign1 = forms.CharField(max_length=4)
+    callsign2 = forms.CharField(max_length=4)

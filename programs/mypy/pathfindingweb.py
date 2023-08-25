@@ -1,9 +1,89 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from math import sin, cos, asin, sqrt
 import geopandas as gpd
-from programs.templates.python.flightLib import Route, Airport, chelp, helper
+import pandas as pd
+import time
+
+
+# Start of flightLib.py
+# ------------------ #
+class Route:
+    def __init__(self, name, fc, dc, path, airport_list):
+        self.name = name
+        self.fuelcost = fc
+        self.distance = dc
+        self.path = path
+        self.airport_path = []
+        for p in path:
+            self.airport_path.append(airport_list[p].name)
+
+    def __repr__(self):
+        return f"[{self.path}, {self.fuelcost}, {self.distance}]"
+
+    def __dict__(self):
+        return {f"{self.name}": [self.path, self.fuelcost, self.distance]}
+
+
+class Airport:
+    def __init__(self, id, name, callsign, lat, long, price):
+        self.id = id
+        self.name = name
+        self.callsign = callsign
+        self.lat = lat
+        self.long = long
+        self.price = price
+        self.distance2end = None
+
+    def __repr__(self):
+        return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]"
+
+    def __dict__(self):
+        return {"id": self.id, "name": self.name, "callsign": self.callsign, "lat": self.lat, "long": self.long, "price": self.price, "distance2end": self.distance2end}
+
+
+# color help. Helps shade the colors when plotting
+def chelp(c, k, maxk):
+    if maxk == 0:
+        if c=="green":
+            color = "green"
+        elif c=="blue":
+            color = "blue"
+        else:
+            color="black"
+    else:
+        if c == "green":
+            color = [0, ((255-100)/maxk * (maxk-k) + 100)/255, ((50-10)/maxk * (maxk-k) + 10)/255]
+        elif c == "blue":
+            color = [((21-10)/maxk * (maxk-k) + 10)/255, 0, ((255-121)/maxk * (maxk-k) + 121)/255]
+        else:
+            color="black"
+    return color
+
+
+# read a string from 'paths' and convert it into a list. Kinda dumb that I'm using this but oh well
+def helper(string):
+    nl = string.strip("\n").split(",")
+    new_list = [int(item.strip("[").strip("]")) for item in nl]
+    return new_list
+
+
+def to_df(airport_list):
+    airports = []
+    latitudes = []
+    longitudes = []
+    for ap in airport_list:
+        airports.append(ap.name)
+        latitudes.append(ap.lat)
+        longitudes.append(ap.long)
+
+    d = {"Airport": airports, "Latitude": latitudes, "Longitude": longitudes}
+    df = pd.DataFrame(data=d)
+    return df
+
+
+# start of functions.py
+# ------------------- #
 
 
 def dfs(visited, u, v, path, f, max_stops, G):
@@ -169,7 +249,7 @@ def db_linefilter(db, line_db, min_distance):
     return db
 
 
-def main(db, plott):
+def processing(db, plott):
     route_list = []
     with open("airport_data/paths.txt", "r") as f2:
         lines = f2.readlines()
@@ -262,4 +342,62 @@ def main(db, plott):
 
         fuel_savings = mindist_list[0].fuelcost - minfuel_list[0].fuelcost
         extra_distance = minfuel_list[0].distance - mindist_list[0].distance
-        return fuel_savings, extra_distance
+        return fuel_savings, extra_distance, mindist_list[:5], minfuel_list[:5]
+
+
+# Start of pathfinding4.py
+# ----------------- #
+
+def main(u,v):
+    G = [[] * 1 for i in range(5000)]
+    path = []
+    visited = [0]*100000
+    minimum_line_distance = 100
+
+    # start timing
+    start_time = time.time()
+
+    # create a database of airport objects and sort them by their distance to the destination airport
+    airport_database = get_airports("airport_data/airport_data3.csv")
+    ap_start, ap_end = get_start_end(u,v,airport_database)
+    prelim_database = sort_and_slice(ap_start, ap_end, airport_database)
+
+    dist = distance(ap_start, ap_end)
+    points = generate_points(ap_start, ap_end, dist)
+    sorted_database = db_linefilter(prelim_database,points,minimum_line_distance)
+
+    if dist % 500 > 380:
+        val = 2
+    else:
+        val = 1
+    max_stops = int(dist // 500 + val)
+
+    # find the connectivity of the airports, using the range of a cessna as a reference
+    connectivity(sorted_database)
+
+    # store the connectivity in a matrix used by the recursive program?
+    with open("airport_data/connectivity.csv", "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            x, y = line.split(",")
+            x = int(x)
+            y = int(y)
+            G[x].append(y)
+
+    # run the pathfinding algorithm
+    path.append(ap_start.id)
+    with open("airport_data/paths.txt", 'w') as f3:
+        dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
+
+    # Read path info from paths.txt; store paths as routes and compute cost and distance; plot data on map
+    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, plott=False)
+    end_time = time.time()
+
+    airports_d = []
+    airports_f = []
+    for apid in min_dist:
+        airports_d.append(sorted_database[apid])
+    for apid in min_fuel:
+        airports_f.append(sorted_database[apid])
+
+    return fuel_saved, xtra_dist, airports_f, airports_d
