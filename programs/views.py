@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .forms import StateForm, AirportForm, CallsignForm
 from .models import Airport
-from mypy import pathfindingweb as pthfndr
+from .mypy import pathfindingweb as pthfndr
 
 
 # Create your views here.
