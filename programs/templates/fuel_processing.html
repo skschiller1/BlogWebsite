@@ -1,0 +1,9 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="program-container">
+        {% for item in context %}
+            { item }
+        {% endfor %}
+    </div>
+{% endblock %}
