@@ -30,10 +30,11 @@ if (fuel_airports.length > 1) {
         alert(fuel_airports[i].innerHTML);
         var latlong = fuel_airports[i].innerHTML.split();
         alert("Made it after lat long");
-        let marker = L.marker([parseFloat(latlong[0]), parseFloat(latlong[0])]).addTo(map);
+        let marker = L.marker([parseFloat(latlong[0]), parseFloat(latlong[0])]);
         list_of_markers.push(marker);
     }
 }
+alert(list_of_markers);
 
 let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
 // let marker1 = L.marker([]).addTo(map)
