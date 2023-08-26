@@ -47,14 +47,12 @@ float: none;
 overflow: auto;
 background-color: rgba(137, 207, 240,.5);
 min-width: 100px;
-
 z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
   text-decoration: none;
-
 }
 
 /* Change color of dropdown links on hover */
@@ -208,11 +206,10 @@ top: 50%;
 right: 2%;
 }
 
-.program-input {
-margin-top: 100px;
-}
-
-.state {
-height: 100px;
-width: 100%
+#fuel-form {
+width: 40%;
+height: auto;
+margin-top: 80px;
+padding: 30px;
+background-color: rgba(137, 207, 240,.5);
 }

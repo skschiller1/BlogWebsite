@@ -7,6 +7,24 @@
       content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-Bello
+<form action="test" method="POST">
+    {% csrf_token %}
+    <label for="callsign1">Callsign 1</label>
+    <input type="text" id="callsign1" name="callsign1">
+    <label for="callsign2">Callsign 2</label>
+    <input type="text" id="callsign2" name="callsign2">
+    <input type="submit" value="Submit" name="callsign-submit">
+</form>
+
+<p>Amount of fuel saved: {{ results.0 }}</p>
+<p>Extra milage added to trip: {{ results.1 }}</p>
+<p>Airports along Cheapest Route:</p>
+{% for item in results.2 %}
+    <p>{{ item }}<p>
+{% endfor %}
+<p>Airports along Shortest Route:</p>
+{% for item in results.3 %}
+    <p>{{ item }}<p>
+{% endfor %}
 </body>
 </html>

@@ -1,9 +1,15 @@
 import numpy as np
 from math import sin, cos, asin, sqrt
 # import matplotlib.pyplot as plt
-import geopandas as gpd
-import pandas as pd
+# import geopandas as gpd
 import time
+import myblogsite.settings as settings
+from pathlib import Path
+
+
+airport_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\airport_data3.csv"
+connectivity_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\connectivity.txt"
+paths_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\paths.txt"
 
 
 # Start of flightLib.py
@@ -78,8 +84,8 @@ def to_df(airport_list):
         longitudes.append(ap.long)
 
     d = {"Airport": airports, "Latitude": latitudes, "Longitude": longitudes}
-    df = pd.DataFrame(data=d)
-    return df
+    # df = pd.DataFrame(data=d)
+    # return df
 
 
 # start of functions.py
@@ -151,7 +157,7 @@ def generate_points(a1, a2, dist):
 
 
 def connectivity(airport_list):
-    with open("airport_data/connectivity.csv", "w") as f:
+    with open(connectivity_string, "w") as f:
         for a in airport_list:
             for ap in airport_list:
                 if a.id < ap.id:
@@ -164,7 +170,7 @@ def get_airports(filename):
         lines = f.readlines()
         ap_list = []
         for i, line in enumerate(lines):
-            if filename == "airport_data/airport_data3.csv" and i == 0:
+            if filename == airport_string and i == 0:
                 continue
             l = line.split(",")
 
@@ -251,7 +257,7 @@ def db_linefilter(db, line_db, min_distance):
 
 def processing(db, plott):
     route_list = []
-    with open("airport_data/paths.txt", "r") as f2:
+    with open(paths_string, "r") as f2:
         lines = f2.readlines()
         for i, line in enumerate(lines):
             new_line = helper(line)
@@ -266,9 +272,9 @@ def processing(db, plott):
             maxk = len(route_list)
             if maxk == 0:
                 raise Exception("No routes found. Try expanding 'max_stops', or increasing 'minimum_line_distance'")
-        if plott:
-            world = gpd.read_file("ne_10m_admin_0_states/ne_10m_admin_1_states_provinces.shp")
-            ax = world.plot(color="white", edgecolor="black")
+        # if plott:
+        #     world = gpd.read_file("ne_10m_admin_0_states/ne_10m_admin_1_states_provinces.shp")
+        #     ax = world.plot(color="white", edgecolor="black")
 
         # find the top 5 (or whatever maxk is) routes for both distance and fuel savings, and plot them
         for k in range(maxk):
@@ -298,15 +304,15 @@ def processing(db, plott):
                 #     ax2.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
 
             # convert airport geocordinates into a geopandas dataframes to plot routes on world map!
-            if k == 0:
-                dist_d = {"Airport": route_mindistance.airport_path, "Latitude": latd, "Longitude": longd}
-                dist_df = pd.DataFrame(data=dist_d)
-                fuel_d = {"Airport": route_minfuel.airport_path, "Latitude": latf, "Longitude": longf}
-                fuel_df = pd.DataFrame(data=fuel_d)
-                ap_dist = gpd.GeoDataFrame(dist_df, geometry=gpd.points_from_xy(-dist_df.Longitude, dist_df.Latitude),
-                                           crs="EPSG:4326")
-                ap_fuel = gpd.GeoDataFrame(fuel_df, geometry=gpd.points_from_xy(-fuel_df.Longitude, fuel_df.Latitude),
-                                           crs="EPSG:4326")
+            # if k == 0:
+            #     dist_d = {"Airport": route_mindistance.airport_path, "Latitude": latd, "Longitude": longd}
+            #     dist_df = pd.DataFrame(data=dist_d)
+            #     fuel_d = {"Airport": route_minfuel.airport_path, "Latitude": latf, "Longitude": longf}
+            #     fuel_df = pd.DataFrame(data=fuel_d)
+                # ap_dist = gpd.GeoDataFrame(dist_df, geometry=gpd.points_from_xy(-dist_df.Longitude, dist_df.Latitude),
+                #                            crs="EPSG:4326")
+                # ap_fuel = gpd.GeoDataFrame(fuel_df, geometry=gpd.points_from_xy(-fuel_df.Longitude, fuel_df.Latitude),
+                #                            crs="EPSG:4326")
                 # if plott:
                 #     ad = ap_dist.plot(ax=ax, color="blue", markersize=5)
                 #     af = ap_fuel.plot(ax=ax, color="green", markersize=5)
@@ -339,7 +345,6 @@ def processing(db, plott):
         for apid in minfuel_list[0].path:
             print(db[apid])
 
-
         fuel_savings = mindist_list[0].fuelcost - minfuel_list[0].fuelcost
         extra_distance = minfuel_list[0].distance - mindist_list[0].distance
         return fuel_savings, extra_distance, mindist_list[:5], minfuel_list[:5]
@@ -358,7 +363,7 @@ def main(u,v):
     start_time = time.time()
 
     # create a database of airport objects and sort them by their distance to the destination airport
-    airport_database = get_airports("airport_data/airport_data3.csv")
+    airport_database = get_airports(airport_string)
     ap_start, ap_end = get_start_end(u,v,airport_database)
     prelim_database = sort_and_slice(ap_start, ap_end, airport_database)
 
@@ -376,7 +381,7 @@ def main(u,v):
     connectivity(sorted_database)
 
     # store the connectivity in a matrix used by the recursive program?
-    with open("airport_data/connectivity.csv", "r") as f:
+    with open(connectivity_string, "r") as f:
         lines = f.readlines()
         for line in lines:
             x, y = line.split(",")
@@ -386,7 +391,7 @@ def main(u,v):
 
     # run the pathfinding algorithm
     path.append(ap_start.id)
-    with open("airport_data/paths.txt", 'w') as f3:
+    with open(paths_string, 'w') as f3:
         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
 
     # Read path info from paths.txt; store paths as routes and compute cost and distance; plot data on map
@@ -395,9 +400,13 @@ def main(u,v):
 
     airports_d = []
     airports_f = []
-    for apid in min_dist:
-        airports_d.append(sorted_database[apid])
-    for apid in min_fuel:
-        airports_f.append(sorted_database[apid])
+    for i, item in enumerate(min_dist):
+        if i == 0:
+            for apid in item.path:
+                airports_d.append(sorted_database[apid])
+    for i, item in enumerate(min_fuel):
+        if i == 0:
+            for apid in item.path:
+                airports_f.append(sorted_database[apid])
 
     return fuel_saved, xtra_dist, airports_f, airports_d
