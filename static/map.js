@@ -26,7 +26,8 @@ alert("Made it past fuel_airports");
 if (fuel_airports.length > 1) {
     for (i = 0; i < fuel_airports.length; i++) {
         alert("Inside for loop");
-        var [lat, long] = fuel_airports[i].split();
+        let lat = fuel_airports[i].split()[0];
+        let long = fuel_airports[i].split()[1];
         alert("Made it after lat long");
         let marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map);
     }
