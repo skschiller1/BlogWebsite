@@ -23,7 +23,8 @@ map.setView([38.6280, -96.3344], 4);
 let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
 var fuel_airports = document.getElementsByClassName("fuel-airports")
 for (i = 0; i < fuel_airports.length; i++) {
-    let marker = L.marker([])
+    var [lat, long] = fuel_airports[i].split();
+    let marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(map);
 }
 // let marker1 = L.marker([]).addTo(map)
 
