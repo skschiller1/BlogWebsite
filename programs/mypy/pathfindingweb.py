@@ -4,7 +4,6 @@ from math import sin, cos, asin, sqrt
 # import geopandas as gpd
 import time
 import myblogsite.settings as settings
-from pathlib import Path
 
 
 airport_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\airport_data3.csv"
