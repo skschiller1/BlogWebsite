@@ -24,12 +24,14 @@ map.setView([38.6280, -96.3344], 4);
 var fuel_airports = document.getElementsByClassName("fuel-airports");
 alert("Made it past fuel_airports");
 if (fuel_airports.length > 1) {
+    var list_of_markers = [];
     for (i = 0; i < fuel_airports.length; i++) {
         alert("Inside for loop");
         alert(fuel_airports[i].innerHTML);
         var latlong = fuel_airports[i].innerHTML.split();
         alert("Made it after lat long");
         let marker = L.marker([parseFloat(latlong[0]), parseFloat(latlong[0])]).addTo(map);
+        list_of_markers.push(marker);
     }
 }
 
