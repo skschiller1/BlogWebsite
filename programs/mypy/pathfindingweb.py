@@ -41,7 +41,7 @@ class Airport:
         self.distance2end = None
 
     def __list__(self):
-        return [{self.id}, {self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]
+        return [self.id, self.name, self.callsign, round(self.lat,5), round(self.long,5), self.price, self.distance2end]
 
     def __str__(self):
         return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]"
