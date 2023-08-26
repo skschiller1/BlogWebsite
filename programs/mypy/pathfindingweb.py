@@ -6,9 +6,9 @@ import time
 import myblogsite.settings as settings
 
 
-airport_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\airport_data3.csv"
-connectivity_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\connectivity.txt"
-paths_string = str(settings.BASE_DIR) + '\\' + "programs\\mypy\\airport_data\\paths.txt"
+airport_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/airport_data3.csv"
+connectivity_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/connectivity.txt"
+paths_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/paths.txt"
 
 
 # Start of flightLib.py
