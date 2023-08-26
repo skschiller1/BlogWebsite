@@ -31,6 +31,7 @@ if (fuel_airports.length > 1) {
         var namecalllatlong = fuel_airports[i].innerHTML.split();
         alert("Made it after lat long");
         let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]);
+        alert(namecalllatlong[2], namecalllatlong[3])
         list_of_markers.push(marker);
     }
 }
