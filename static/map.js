@@ -28,16 +28,19 @@ if (fuel_airports.length > 1) {
     for (i = 0; i < fuel_airports.length; i++) {
         alert("Inside for loop");
         alert(fuel_airports[i].innerHTML);
-        var latlong = fuel_airports[i].innerHTML.split();
+        var namecalllatlong = fuel_airports[i].innerHTML.split();
         alert("Made it after lat long");
-        let marker = L.marker([parseFloat(latlong[0]), parseFloat(latlong[0])]);
+        let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]);
         list_of_markers.push(marker);
     }
 }
-alert(list_of_markers);
+for (j = 0; i < fuel_airports.length; j++) {
+    list_of_markers.addTo(map);
+    list_of_markers.bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
+}
 
 let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
 // let marker1 = L.marker([]).addTo(map)
 
 // Bind popup to the marker with a popup
-// eiffelMarker.bindPopup("Eiffel Tower").openPopup();
+//
