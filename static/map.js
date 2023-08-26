@@ -21,7 +21,11 @@ map.setView([38.6280, -96.3344], 4);
 
 // Show a market at the position of the Eiffel Tower
 let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
-// let marker1 = L.marker([])
+var fuel_airports = document.getElementsByClassName("fuel-airports")
+for (i = 0; i < fuel_airports.length; i++) {
+    let marker = L.marker([])
+}
+// let marker1 = L.marker([]).addTo(map)
 
 // Bind popup to the marker with a popup
 // eiffelMarker.bindPopup("Eiffel Tower").openPopup();

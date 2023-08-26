@@ -40,7 +40,10 @@ class Airport:
         self.price = price
         self.distance2end = None
 
-    def __repr__(self):
+    def __list__(self):
+        return [{self.id}, {self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]
+
+    def __str__(self):
         return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]"
 
     def __dict__(self):
@@ -402,10 +405,10 @@ def main(u,v):
     for i, item in enumerate(min_dist):
         if i == 0:
             for apid in item.path:
-                airports_d.append(sorted_database[apid])
+                airports_d.append(sorted_database[apid].__list__())
     for i, item in enumerate(min_fuel):
         if i == 0:
             for apid in item.path:
-                airports_f.append(sorted_database[apid])
+                airports_f.append(sorted_database[apid].__list__())
 
     return fuel_saved, xtra_dist, airports_f, airports_d
