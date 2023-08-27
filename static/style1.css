@@ -238,4 +238,6 @@ display: none;
 width: 80%;
 height: 500px;
 margin-bottom: 20px;
+padding: 10px;
+background-color: rgba(224, 240, 255,.98);
 }
