@@ -1,4 +1,4 @@
-function MarkerFunction(airports) {
+function MarkerFunction(x) {
     for (i = 0; i < x.length; i++) {
         if (window.getComputedStyle(x[i]).display === "none") {
             var string = x[i].innerHTML.split(",");
@@ -32,7 +32,7 @@ window.onload = (event) => {
     map.setView([38.6280, -96.3344], 4);
 
     const PI = Math.PI;
-    var x = document.getElementsByClassName("fuel-airports");
-    MarkerFunction(x)
+    var airports = document.getElementsByClassName("fuel-airports");
+    MarkerFunction(airports)
 }
 
