@@ -5,7 +5,7 @@ function MarkerFunction(x, map, color) {
         iconSize: [25, 40],
         iconAnchor: [13, 41],
         popupAnchor: [0, -34],
-        shadowSize: [50, 53],
+        shadowSize: [40, 53],
         shadowAnchor: [12, 60]
     });
 
