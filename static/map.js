@@ -1,10 +1,26 @@
-function MarkerFunction(x, map) {
+function MarkerFunction(x, map, color) {
+    var myIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [38, 95],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76],
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+
     const PI = Math.PI;
     var marker_list = [];
     for (i = 0; i < x.length; i++) {
         if (window.getComputedStyle(x[i]).display === "none") {
             var string = x[i].innerHTML.split(",");
-            let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])]).addTo(map);
+            if (color === "green") {
+                let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])], {icon: myIcon}).addTo(map);
+            } else {
+                let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])]).addTo(map);
+            }
+
+
             marker_list.push(marker);
         }
     }
@@ -12,7 +28,6 @@ function MarkerFunction(x, map) {
     for (j = 0; j < x.length; j++) {
         marker_list[j].bindPopup(x[j].innerHTML.split()[0]).openPopup();
     }
-    alert("Finished binding popups");
 }
 
 window.onload = (event) => {
@@ -33,7 +48,9 @@ window.onload = (event) => {
     // with the latitude, longitude and the zoom value
     map.setView([38.6280, -96.3344], 4);
 
-    var airports = document.getElementsByClassName("fuel-airports");
-    MarkerFunction(airports, map);
+    var fairports = document.getElementsByClassName("fuel-airports");
+    var dairports = document.getElementsByClassName("dist-airports");
+    MarkerFunction(fairports, map, 'green');
+    MarkerFunction(dairports, map, 'blue');
 }
 
