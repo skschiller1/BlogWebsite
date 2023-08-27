@@ -26,6 +26,7 @@ if (fuel_airports.length > 1) {
     var list_of_markers = [];
     var PI = Math.PI;
     for (i = 0; i < fuel_airports.length; i++) {
+    alert(fuel_airports[i].innerHTML.split(","));
         var namecalllatlong = fuel_airports[i].innerHTML.split(",");
         let marker = L.marker([180/PI * parseFloat(namecalllatlong[2]), -180/PI * parseFloat(namecalllatlong[3])]).addTo(map);
         list_of_markers.push(marker);
