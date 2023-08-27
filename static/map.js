@@ -1,8 +1,8 @@
 function MarkerFunction(x, map, color) {
     var myIcon = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [38, 95],
+        iconSize: [25, 60],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76],
         shadowSize: [68, 95],
