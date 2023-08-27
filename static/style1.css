@@ -246,4 +246,5 @@ padding-bottom: 10px;
 #map {
 width: 90%;
 height: 500px;
+place-items: center;
 }
