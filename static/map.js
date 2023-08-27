@@ -1,6 +1,6 @@
 function MarkerFunction(x, map, color) {
     var myIcon = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
@@ -15,12 +15,10 @@ function MarkerFunction(x, map, color) {
         if (window.getComputedStyle(x[i]).display === "none") {
             var string = x[i].innerHTML.split(",");
             if (color === "green") {
-                let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])], {icon: myIcon}).addTo(map);
+                var marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])], {icon: myIcon}).addTo(map);
             } else {
-                let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])]).addTo(map);
+                var marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])]).addTo(map);
             }
-
-
             marker_list.push(marker);
         }
     }
