@@ -26,19 +26,19 @@ alert("Made it past fuel_airports");
 if (fuel_airports.length > 1) {
     var list_of_markers = [];
     for (i = 0; i < fuel_airports.length; i++) {
-        alert("Inside for loop");
         alert(fuel_airports[i].innerHTML);
         var namecalllatlong = fuel_airports[i].innerHTML.split(",");
-        alert(namecalllatlong[0]);  // The problem is on this line atm.
         let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]);
 
         list_of_markers.push(marker);
     }
 }
+alert("Finished appending markers")
 for (j = 0; i < fuel_airports.length; j++) {
     list_of_markers.addTo(map);
     list_of_markers.bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
 }
+alert("Finished binding popups")
 
 let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
 // let marker1 = L.marker([]).addTo(map)
