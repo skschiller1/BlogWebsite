@@ -234,10 +234,13 @@ display: none;
 display: none;
 }
 
+#map-contianer {
+padding: 10px;
+background-color: rgba(224, 240, 255,.98);
+}
+
 #map {
 width: 80%;
 height: 500px;
 margin-bottom: 20px;
-padding: 10px;
-background-color: rgba(224, 240, 255,.98);
 }
