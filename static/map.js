@@ -25,10 +25,11 @@ var fuel_airports = document.getElementsByClassName("fuel-airports");
 alert("Made it past fuel_airports");
 if (fuel_airports.length > 1) {
     var list_of_markers = [];
+    var PI = Math.PI;
     for (i = 0; i < fuel_airports.length; i++) {
         alert(fuel_airports[i].innerHTML);
         var namecalllatlong = fuel_airports[i].innerHTML.split(",");
-        let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]).addTo(map);
+        let marker = L.marker([PI/180 * parseFloat(namecalllatlong[2]), PI/180 * parseFloat(namecalllatlong[3])]).addTo(map);
 
         list_of_markers.push(marker);
     }
