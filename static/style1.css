@@ -208,7 +208,16 @@ top: 50%;
 right: 2%;
 }
 
+#form-div {
+display: flex;
+justify-content: space-between;
+flex-direction: column;
+}
+
 #fuel-form {
+flex-gorw: 1;
+display: flex;
+flex-direction:column;
 width: 80%;
 height: auto;
 margin: auto;
@@ -218,7 +227,7 @@ background-color: rgba(137, 207, 240,1);
 }
 
 #fuel-data {
-width: 80%;
+width: 40%;
 height: auto;
 margin: auto;
 margin-top: 10px;
