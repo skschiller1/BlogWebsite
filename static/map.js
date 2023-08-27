@@ -1,4 +1,6 @@
 function MarkerFunction(x, map, color) {
+    if ( x.length < 1 ) return 0;
+
     var myIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -26,6 +28,8 @@ function MarkerFunction(x, map, color) {
     for (j = 0; j < x.length; j++) {
         marker_list[j].bindPopup(x[j].innerHTML.split()[0]).openPopup();
     }
+
+    return 1;
 }
 
 window.onload = (event) => {
@@ -48,7 +52,11 @@ window.onload = (event) => {
 
     var fairports = document.getElementsByClassName("fuel-airports");
     var dairports = document.getElementsByClassName("dist-airports");
-    MarkerFunction(fairports, map, 'green');
-    MarkerFunction(dairports, map, 'blue');
+    let test_val = MarkerFunction(fairports, map, 'green');
+    let _ = MarkerFunction(dairports, map, 'blue');
+
+    if ( test_val === 0 ) document.getElementById("fuel-data").style.visibility='hidden';
+    else if ( test_val === 1 ) document.getElementById("fuel-data").style.visibility='visible';
+
 }
 
