@@ -10,29 +10,25 @@
     Uses data collected from Airnav.com.
     To use the program, enter in your desired 3-4 character Airport Identifiers. For example, Easterwood Airport in
     College Station, Texas is known as KCLL, JFK International Airport in Queens, New York is known as KJFK, etc.</p>
-    <div id="form-div">
-        <form action="fuel_index" method="POST">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>Callsign 1</td>
-                    <td><input type="text" id="callsign1" name="callsign1" placeholder="KBHB"></td>
-                </tr>
-                <tr>
-                    <td>Callsign 2</td>
-                    <td><input type="text" id="callsign2" name="callsign2" placeholder="KJFK"></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Submit" name="callsign-submit"></td>
-                </tr>
-            </table>
 
-
-
-        </form>
-    </div>
-
+    <form action="fuel_index" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Callsign 1</td>
+                <td><input type="text" id="callsign1" name="callsign1" placeholder="KBHB"></td>
+            </tr>
+            <tr>
+                <td>Callsign 2</td>
+                <td><input type="text" id="callsign2" name="callsign2" placeholder="KJFK"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit" name="callsign-submit"></td>
+            </tr>
+        </table>
+    </form>
 </div>
+
 <div id="fuel-data">
     <h3>Shortest Route: ${{ results.5.0 }}; {{ results.5.1 }} miles</h3>
     {% for item in results.3 %}
