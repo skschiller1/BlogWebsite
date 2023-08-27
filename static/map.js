@@ -4,9 +4,9 @@ function MarkerFunction(x, map, color) {
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [25, 40],
         iconAnchor: [13, 41],
-        popupAnchor: [2, -30],
+        popupAnchor: [1, -30],
         shadowSize: [68, 95],
-        shadowAnchor: [-30, 100]
+        shadowAnchor: [30, 100]
     });
 
     const PI = Math.PI;
