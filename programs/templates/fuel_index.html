@@ -20,12 +20,12 @@
     </form>
 </div>
 <div id="fuel-data">
-    <h3>Shortest Route:</h3>
+    <h3>Shortest Route: {{ results.5.0 }} miles;  ${{ results.5.1 }}</h3>
     {% for item in results.3 %}
         <div>{{ item.2 }}, {{ item.1 }}<p class="dist-airports">{{ item.3 }},{{ item.4 }}</p></div>
     {% endfor %}
 
-    <h3>Cheapest Route:</h3>
+    <h3>Cheapest Route: {{ results.4.0 }} miles;  ${{ results.4.1 }}</h3>
     {% for item in results.2 %}
         <div>{{ item.2 }}, {{ item.1 }}<p class="fuel-airports">{{ item.3 }},{{ item.4 }}</p></div>
     {% endfor %}
