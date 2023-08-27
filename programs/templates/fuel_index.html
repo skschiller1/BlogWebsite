@@ -19,12 +19,13 @@
         <input type="submit" value="Submit" name="callsign-submit">
     </form>
 
-    <p>Amount of fuel saved: {{ results.0 }}</p>
-    <p>Extra milage added to trip: {{ results.1 }}</p>
+    <p>Amount of fuel saved: ${{ results.0 }}</p>
+    <p>Extra milage added to trip: {{ results.1 }} miles</p>
     <p>Airports along Cheapest Route:</p>
     {% for item in results.2 %}
         <p class="fuel-airports">{{ item.1 }},{{ item.2 }},{{ item.3 }},{{ item.4 }}<p>
     {% endfor %}
+    <br>
     <p>Airports along Shortest Route:</p>
     {% for item in results.3 %}
         <p class="dist-airports">{{ item.1 }},{{ item.2 }},{{ item.3 }},{{ item.4 }}<p>
