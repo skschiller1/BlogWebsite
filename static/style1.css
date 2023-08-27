@@ -209,16 +209,18 @@ right: 2%;
 }
 
 #fuel-form {
-width: 40%;
+width: 80%;
 height: auto;
+margin: auto;
 margin-top: 80px;
 padding: 30px;
 background-color: rgba(137, 207, 240,1);
 }
 
 #fuel-data {
-width: 40%;
+width: 80%;
 height: auto;
+margin: auto;
 margin-top: 10px;
 padding: 30px;
 background-color: rgba(137, 207, 240,1);
