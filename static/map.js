@@ -21,35 +21,31 @@ map.setView([38.6280, -96.3344], 4);
 
 // Show a marker at the position of the Eiffel Tower
 
-var fuel_airports = document.getElementsByClassName("fuel-airports");
-if (fuel_airports.length > 1) {
-    var list_of_markers = [];
-    var PI = Math.PI;
-    for (i = 0; i < fuel_airports.length; i++) {
-    alert(fuel_airports[i].innerHTML.split(","));
-        var namecalllatlong = fuel_airports[i].innerHTML.split(",");
-        let marker = L.marker([180/PI * parseFloat(namecalllatlong[2]), -180/PI * parseFloat(namecalllatlong[3])]).addTo(map);
+//var fuel_airports = document.getElementsByClassName("fuel-airports");
+//if (fuel_airports.length > 1) {
+//    var list_of_markers = [];
+//
+//    for (i = 0; i < fuel_airports.length; i++) {
+//        alert(fuel_airports[i].innerHTML.split(","));
+//        var namecalllatlong = fuel_airports[i].innerHTML.split(",");
+//        let marker = L.marker([180/PI * parseFloat(namecalllatlong[2]), -180/PI * parseFloat(namecalllatlong[3])]).addTo(map);
+//        list_of_markers.push(marker);
+//    }
+//}
+
+const PI = Math.PI;
+var x = document.getElementsByClassName("fuel-airports");
+for (i = 0; i < x.length; i++) {
+    if (window.getComputedStyle(x[i]).display === "none") {
+        var string = x[i].innerHTML.split(",");
+        let marker = L.marker([180/PI * parseFloat(string[2]), -180/PI * parseFloat(string[3])]).addTo(map);
         list_of_markers.push(marker);
     }
 }
 
-for (j = 0; i < fuel_airports.length; j++) {
-    list_of_markers[j].bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
-}
 
-//var dist_airports = document.getElementsByClassName("dist-airports");
-//if (dist_airports.length > 1) {
-//    var list_dist_of_markers = [];
-//    var PI = Math.PI;
-//    for (i = 0; i < dist_airports.length; i++) {
-//        var namecalllatlongdist = dist_airports[i].innerHTML.split(",");
-//        let marker_dist = L.marker([180/PI * parseFloat(namecalllatlongdist[2]), -180/PI * parseFloat(namecalllatlongdist[3])]).addTo(map);
-//        list_of_dist_markers.push(marker_dist);
-//    }
-//}
-//
-//for (j = 0; i < dist_airports.length; j++) {
-//    list_of_dist_markers[j].bindPopup(dist_airports[j].innerHTML.split()[0]).openPopup();
-//}
+for (j = 0; j < x.length; j++) {
+    list_of_markers[j].bindPopup(x[j].innerHTML.split()[0]).openPopup();
+}
 
 alert("Finished binding popups")
