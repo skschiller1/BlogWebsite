@@ -226,6 +226,12 @@ justify-content: space-between;
 flex-direction: column;
 }
 
+#form-div {
+width: 50px;
+height: auto;
+background-color: rgba(137, 207, 255,1);
+}
+
 #fuel-data {
 width: 40%;
 height: auto;
