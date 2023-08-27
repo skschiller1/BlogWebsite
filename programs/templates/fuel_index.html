@@ -10,11 +10,6 @@
     Uses data collected from Airnav.com.
     To use the program, enter in your desired 3-4 character Airport Identifiers. For example, Easterwood Airport in
     College Station, Texas, is known as KCLL. JFK International Airport in Queens, New York, is known as KJFK, etc.</p>
-    <p class="note">Note: The program takes fractions of a second to compute airports within 1320 miles. It takes roughly 1 minute to
-    compute airports within 1820 miles. Future updates will aim to reduce this computation time. </p>
-    <p class="note">Note: The program filters out airports that are over 100 miles away from the great circle arc created by two airports.
-    This will result in no solution for trips from Alaska or Hawaii to many state-side airports in the NorthEast, due to
-    a lack of airport data from Canada. Future updates will utilize Canadian airports, along with more robust route-finding methods.</p>
     <div id="form-div">
         <form action="fuel_index" method="POST">
             {% csrf_token %}
@@ -32,6 +27,11 @@
                 </tr>
             </table>
         </form>
+        <p class="note">Note: The program takes fractions of a second to compute airports within 1320 miles. It takes roughly 1 minute to
+        compute airports within 1820 miles. Future updates will aim to reduce this computation time. </p>
+        <p class="note">Note: The program filters out airports that are over 100 miles away from the great circle arc created by two airports.
+        This will result in no solution for trips from Alaska or Hawaii to many state-side airports in the NorthEast, due to
+        a lack of airport data from Canada. Future updates will utilize Canadian airports, along with more robust route-finding methods.</p>
     </div>
 </div>
 
