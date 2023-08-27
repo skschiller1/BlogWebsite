@@ -1,4 +1,5 @@
 function MarkerFunction(x) {
+    const PI = Math.PI;
     for (i = 0; i < x.length; i++) {
         if (window.getComputedStyle(x[i]).display === "none") {
             var string = x[i].innerHTML.split(",");
@@ -31,7 +32,6 @@ window.onload = (event) => {
     // with the latitude, longitude and the zoom value
     map.setView([38.6280, -96.3344], 4);
 
-    const PI = Math.PI;
     var airports = document.getElementsByClassName("fuel-airports");
     MarkerFunction(airports)
 }
