@@ -55,8 +55,8 @@ window.onload = (event) => {
     let test_val = MarkerFunction(fairports, map, 'green');
     let _ = MarkerFunction(dairports, map, 'blue');
 
-    if ( test_val === 0 ) document.getElementById("fuel-data").style.visibility='hidden';
-    else if ( test_val === 1 ) document.getElementById("fuel-data").style.visibility='visible';
+    if ( test_val === 0 ) document.getElementById("fuel-data").style.display='none';
+    else if ( test_val === 1 ) document.getElementById("fuel-data").style.display='visible';
 
 }
 
