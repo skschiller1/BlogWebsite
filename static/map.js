@@ -13,7 +13,7 @@ function MarkerFunction(airports) {
     alert("Finished binding popups");
 }
 
-window.onload() = (event) => {
+window.onload = (event) => {
     // Initialize the map
     const map = L.map('map')
 
