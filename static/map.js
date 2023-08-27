@@ -1,4 +1,4 @@
-function MarkerFunction(x) {
+function MarkerFunction(x, map) {
     const PI = Math.PI;
     for (i = 0; i < x.length; i++) {
         if (window.getComputedStyle(x[i]).display === "none") {
@@ -33,6 +33,6 @@ window.onload = (event) => {
     map.setView([38.6280, -96.3344], 4);
 
     var airports = document.getElementsByClassName("fuel-airports");
-    MarkerFunction(airports)
+    MarkerFunction(airports, map);
 }
 
