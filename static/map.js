@@ -1,15 +1,16 @@
 function MarkerFunction(x, map) {
     const PI = Math.PI;
+    var marker_list = [];
     for (i = 0; i < x.length; i++) {
         if (window.getComputedStyle(x[i]).display === "none") {
             var string = x[i].innerHTML.split(",");
             let marker = L.marker([180/PI * parseFloat(string[0]), -180/PI * parseFloat(string[1])]).addTo(map);
-            list_of_markers.push(marker);
+            marker_list.push(marker);
         }
     }
 
     for (j = 0; j < x.length; j++) {
-        list_of_markers[j].bindPopup(x[j].innerHTML.split()[0]).openPopup();
+        marker_list[j].bindPopup(x[j].innerHTML.split()[0]).openPopup();
     }
     alert("Finished binding popups");
 }
