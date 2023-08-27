@@ -35,8 +35,8 @@ if (fuel_airports.length > 1) {
 }
 alert("Finished appending markers")
 for (j = 0; i < fuel_airports.length; j++) {
-    list_of_markers.addTo(map);
-    list_of_markers.bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
+    list_of_markers[j].addTo(map);
+    list_of_markers[j].bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
 }
 alert("Finished binding popups")
 
