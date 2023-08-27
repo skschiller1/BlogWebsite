@@ -28,14 +28,13 @@ if (fuel_airports.length > 1) {
     for (i = 0; i < fuel_airports.length; i++) {
         alert(fuel_airports[i].innerHTML);
         var namecalllatlong = fuel_airports[i].innerHTML.split(",");
-        let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]);
+        let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]).addTo(map);
 
         list_of_markers.push(marker);
     }
 }
 alert("Finished appending markers")
 for (j = 0; i < fuel_airports.length; j++) {
-    list_of_markers[j].addTo(map);
     list_of_markers[j].bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
 }
 alert("Finished binding popups")
