@@ -13,11 +13,22 @@
     <div id="form-div">
         <form action="fuel_index" method="POST">
             {% csrf_token %}
-            <label for="callsign1">Callsign 1</label>
-            <label for="callsign2">Callsign 2</label>
-            <input type="text" id="callsign1" name="callsign1" placeholder="KBHB">
-            <input type="text" id="callsign2" name="callsign2" placeholder="KJFK">
-            <input type="submit" value="Submit" name="callsign-submit">
+            <table>
+                <tr>
+                    <td>Callsign 1</td>
+                    <td><input type="text" id="callsign1" name="callsign1" placeholder="KBHB"></td>
+                </tr>
+                <tr>
+                    <td>Callsign 2</td>
+                    <td><input type="text" id="callsign2" name="callsign2" placeholder="KJFK"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Submit" name="callsign-submit"></td>
+                </tr>
+            </table>
+
+
+
         </form>
     </div>
 
