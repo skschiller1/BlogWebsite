@@ -51,15 +51,15 @@
 
 <div id="map-container">
     <h1>Route Map</h1>
-<!-- Specify the map and it's dimensions -->
-<div id="map"></div>
-    <!-- Get the leaflet JavaScript file -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-        crossorigin=""></script>
-    <script src="{% static 'map.js' %}"></script>
+    <!-- Specify the map and it's dimensions -->
+    <div id="map"></div>
 
 </div>
+<!-- Get the leaflet JavaScript file -->
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+<script src="{% static 'map.js' %}"></script>
 
 
 {% endblock %}
