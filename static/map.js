@@ -5,8 +5,8 @@ function MarkerFunction(x, map, color) {
         iconSize: [25, 40],
         iconAnchor: [13, 41],
         popupAnchor: [0, -34],
-        shadowSize: [40, 53],
-        shadowAnchor: [12, 52]
+        shadowSize: [45, 53],
+        shadowAnchor: [12, 54]
     });
 
     const PI = Math.PI;
