@@ -251,3 +251,7 @@ height: 500px;
 place-items: center;
 margin: auto;
 }
+
+.note {
+font-size: 9px;
+}
