@@ -234,9 +234,9 @@ display: none;
 display: none;
 }
 
-#map-contianer {
+#map-container {
 width: 80%;
-height: auto;
+height: auto
 padding: 10px;
 background-color: rgba(224, 240, 255,.98);
 }
