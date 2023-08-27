@@ -22,7 +22,6 @@ map.setView([38.6280, -96.3344], 4);
 // Show a marker at the position of the Eiffel Tower
 
 var fuel_airports = document.getElementsByClassName("fuel-airports");
-alert("Made it past fuel_airports");
 if (fuel_airports.length > 1) {
     var list_of_markers = [];
     var PI = Math.PI;
@@ -34,14 +33,8 @@ if (fuel_airports.length > 1) {
         list_of_markers.push(marker);
     }
 }
-alert("Finished appending markers")
+
 for (j = 0; i < fuel_airports.length; j++) {
     list_of_markers[j].bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
 }
 alert("Finished binding popups")
-
-let eiffelMarker = L.marker([48.8584, 2.2945]).addTo(map);
-// let marker1 = L.marker([]).addTo(map)
-
-// Bind popup to the marker with a popup
-//
