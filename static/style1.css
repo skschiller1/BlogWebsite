@@ -144,7 +144,8 @@ border-bottom-right-radius: 25px 25px;
 
 .blog-container {
 background-color: rgba(137, 207, 240,0);
-margin: 60px 50px 50px 60px;
+width: 90%;
+margin: auto;
 padding: 20px 50px 20px;
 text-align: center;
 }
