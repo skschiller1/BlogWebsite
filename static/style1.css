@@ -240,10 +240,10 @@ height: auto;
 background-color: rgba(224, 240, 255,.98);
 margin-bottom: 20px;
 margin-top: 20px;
+padding-bottom: 10px;
 }
 
 #map {
-width: 100%;
+width: 90%;
 height: 500px;
-padding: 10px;
 }
