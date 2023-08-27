@@ -35,4 +35,20 @@ if (fuel_airports.length > 1) {
 for (j = 0; i < fuel_airports.length; j++) {
     list_of_markers[j].bindPopup(fuel_airports[j].innerHTML.split()[0]).openPopup();
 }
+
+//var dist_airports = document.getElementsByClassName("dist-airports");
+//if (dist_airports.length > 1) {
+//    var list_dist_of_markers = [];
+//    var PI = Math.PI;
+//    for (i = 0; i < dist_airports.length; i++) {
+//        var namecalllatlongdist = dist_airports[i].innerHTML.split(",");
+//        let marker_dist = L.marker([180/PI * parseFloat(namecalllatlongdist[2]), -180/PI * parseFloat(namecalllatlongdist[3])]).addTo(map);
+//        list_of_dist_markers.push(marker_dist);
+//    }
+//}
+//
+//for (j = 0; i < dist_airports.length; j++) {
+//    list_of_dist_markers[j].bindPopup(dist_airports[j].innerHTML.split()[0]).openPopup();
+//}
+
 alert("Finished binding popups")

@@ -411,4 +411,4 @@ def main(u,v):
             for apid in item.path:
                 airports_f.append(sorted_database[apid].__list__())
 
-    return fuel_saved, xtra_dist, airports_f, airports_d
+    return round(fuel_saved,2), round(xtra_dist,2), airports_f, airports_d
