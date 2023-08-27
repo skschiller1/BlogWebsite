@@ -28,8 +28,8 @@ if (fuel_airports.length > 1) {
     for (i = 0; i < fuel_airports.length; i++) {
         alert("Inside for loop");
         alert(fuel_airports[i].innerHTML);
-        var namecalllatlong = fuel_airports[i].innerHTML.split();
-        alert(namecalllatlong);  // The problem is on this line atm.
+        var namecalllatlong = fuel_airports[i].innerHTML.split(",");
+        alert(namecalllatlong[0]);  // The problem is on this line atm.
         let marker = L.marker([parseFloat(namecalllatlong[2]), parseFloat(namecalllatlong[3])]);
 
         list_of_markers.push(marker);
