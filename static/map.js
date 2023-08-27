@@ -3,10 +3,10 @@ function MarkerFunction(x, map, color) {
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [25, 40],
-        iconAnchor: [7, 39],
+        iconAnchor: [15, 41],
         popupAnchor: [12, -30],
         shadowSize: [68, 95],
-        shadowAnchor: [7, 39]
+        shadowAnchor: [15, 39]
     });
 
     const PI = Math.PI;
