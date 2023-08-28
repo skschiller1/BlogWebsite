@@ -97,7 +97,7 @@ def to_df(airport_list):
 def dfs(visited, u, v, path, f, max_stops, G):
     visited[u] = 1
     if u == v:
-        print("Path found:", path)
+        # print("Path found:", path)
         f.write(f"{path}\n")
     elif len(path) > max_stops:
         pass
