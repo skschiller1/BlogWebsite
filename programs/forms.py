@@ -26,6 +26,17 @@ class AirportForm(forms.Form):
             choices=[(o.id, str(o.name)) for o in Airport.objects.filter(state=f" {state2}")])
 
 
+choices = ( ("Piper Cub", "Piper Cub"),
+            ("Cessna 172", "Cessna 172"),
+            ("Piper PA-28 160", "Piper PA-28 160"),
+            ("Cirrus SR20", "Cirrus SR20"),
+            ("Cessna 182", "Cessna 182"),
+            ("Beechcraft Bonanza G36", "Beechcraft Bonanza G36"),
+            ("Baron G58", "Baron G58"),
+            ("Airbus A320", "Airbus A320"),
+            ("Gulfstream G650", "Gulfstream G650"))
+
 class CallsignForm(forms.Form):
-    callsign1 = forms.CharField(max_length=4)
-    callsign2 = forms.CharField(max_length=4)
+    callsign1 = forms.CharField(max_length=4, initial="KBHB")
+    callsign2 = forms.CharField(max_length=4, initial="KJFK")
+    aircraft = forms.ChoiceField(choices = choices, initial="Cessna 172")

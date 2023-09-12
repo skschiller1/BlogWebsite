@@ -15,25 +15,23 @@
             {% csrf_token %}
             <table>
                 <tr>
-                    <td>Callsign 1</td>
-                    <td><input type="text" id="callsign1" name="callsign1" placeholder="KBHB"></td>
-                </tr>
-                <tr>
-                    <td>Callsign 2</td>
-                    <td><input type="text" id="callsign2" name="callsign2" placeholder="KJFK"></td>
+                    {{ form.as_p }}
                 </tr>
                 <tr>
                     <td><input type="submit" value="Submit" name="callsign-submit"></td>
                 </tr>
             </table>
         </form>
-        <p class="note">Note: The program takes fractions of a second to compute routes for destinations within 1320 miles.
-            It takes roughly 1 minute to compute routes for destinations beyond 1320 miles and within 1820 miles.
+        <p class="note">Note: The program time varies depending on the range of the aircraft, and the distance from the starting to the destination airport.
+            Specifically, shorter range aircraft require more stops, resulting in longer computation times. For the Cessna 172, airports within a range of 1380 miles
+            take fractions of a second, with airports further than 1380 miles but within 1880 miles taking around 1 minute.
             Future updates will aim to reduce this computation time. </p>
         <p class="note">Note: The program filters out airports that are over 100 miles away from the great circle arc
             created by two airports. This will result in no solution for trips from Alaska or Hawaii to many state-side
             airports in the NorthEast, due to a lack of airport data from Canada. Future updates will utilize Canadian
             airports, along with more robust route-finding methods.</p>
+        <p class="note">Note: The program uses 100LL fuel prices to conduct calculations. The results returned for any jet aircraft
+            using Jet A are therefore inaccurate. Future updates will utilize Jet A prices for jets and 100LL for piston aircraft.</p>
     </div>
 </div>
 

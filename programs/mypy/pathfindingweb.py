@@ -115,7 +115,7 @@ def dfs(visited, u, v, path, f, max_stops, G):
 
 # compute the haversine distance in miles
 def distance(a1, a2):
-    d = 2 * asin(sqrt(sin((a1.lat - a2.lat)/2)**2 + cos(a1.lat)*cos(a2.lat)*sin((a1.long - a2.long)/2)**2)) * 6371 / 1.609
+    d = 2 * asin(sqrt(sin((a1.lat - a2.lat)/2)**2 + cos(a1.lat)*cos(a2.lat)*sin((a1.long - a2.long)/2)**2)) * 6371 / 1.852
     return d
 
 
@@ -127,9 +127,9 @@ def solve(d,a1,a2):
     a3long = 1.30
     while error > 0.0001:
         d1 = 2 * asin(sqrt(
-            sin((a3lat - a1.lat) / 2) ** 2 + cos(a1.lat) * cos(a3lat) * sin((a3long - a1.long) / 2) ** 2)) * 6371 / 1.609
+            sin((a3lat - a1.lat) / 2) ** 2 + cos(a1.lat) * cos(a3lat) * sin((a3long - a1.long) / 2) ** 2)) * 6371 / 1.852
         d2 = 2 * asin(sqrt(
-            sin((a2.lat - a3lat) / 2) ** 2 + cos(a3lat) * cos(a2.lat) * sin((a2.long - a3long) / 2) ** 2)) * 6371 / 1.609
+            sin((a2.lat - a3lat) / 2) ** 2 + cos(a3lat) * cos(a2.lat) * sin((a2.long - a3long) / 2) ** 2)) * 6371 / 1.852
         new_error = (d1 + d2) - d
         if new_error < error:
             pass
@@ -158,12 +158,12 @@ def generate_points(a1, a2, dist):
     return line_db
 
 
-def connectivity(airport_list):
+def connectivity(airport_list,range):
     with open(connectivity_string, "w") as f:
         for a in airport_list:
             for ap in airport_list:
                 if a.id < ap.id:
-                    if 0.01 < distance(a, ap) < 513:
+                    if 0.01 < distance(a, ap) < range:
                         f.write(f"{a.id},{ap.id}\n")
 
 
@@ -257,13 +257,13 @@ def db_linefilter(db, line_db, min_distance):
     return db
 
 
-def processing(db, plott):
+def processing(db, fuel_mileage, plott):
     route_list = []
     with open(paths_string, "r") as f2:
         lines = f2.readlines()
         for i, line in enumerate(lines):
             new_line = helper(line)
-            fc, dc = cost_function(db, new_line, 17.1)
+            fc, dc = cost_function(db, new_line, fuel_mileage)
             route_list.append(Route(f"Route{i}", fc, dc, new_line, db))
 
         # fig, (ax1, ax2) = plt.subplots(1, 2)
@@ -355,7 +355,7 @@ def processing(db, plott):
 # Start of pathfinding4.py
 # ----------------- #
 
-def main(u,v):
+def main(u,v,aircraft_range, aircraft_mpg):
     G = [[] * 1 for i in range(5000)]
     path = []
     visited = [0]*100000
@@ -373,14 +373,8 @@ def main(u,v):
     points = generate_points(ap_start, ap_end, dist)
     sorted_database = db_linefilter(prelim_database,points,minimum_line_distance)
 
-    if dist % 500 > 380:
-        val = 2
-    else:
-        val = 1
-    max_stops = int(dist // 500 + val)
-
     # find the connectivity of the airports, using the range of a cessna as a reference
-    connectivity(sorted_database)
+    connectivity(sorted_database,aircraft_range)
 
     # store the connectivity in a matrix used by the recursive program?
     with open(connectivity_string, "r") as f:
@@ -397,7 +391,7 @@ def main(u,v):
         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
 
     # Read path info from paths.txt; store paths as routes and compute cost and distance; plot data on map
-    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, plott=False)
+    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, aircraft_mpg, plott=False)
     end_time = time.time()
 
     airports_d = []
