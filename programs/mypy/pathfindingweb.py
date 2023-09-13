@@ -31,23 +31,24 @@ class Route:
 
 
 class Airport:
-    def __init__(self, id, name, callsign, lat, long, price):
+    def __init__(self, id, name, callsign, lat, long, price100, pricejeta):
         self.id = id
         self.name = name
         self.callsign = callsign
         self.lat = lat
         self.long = long
-        self.price = price
+        self.price100 = price100
+        self.pricejeta = pricejeta
         self.distance2end = None
 
     def __list__(self):
-        return [self.id, self.name, self.callsign, round(self.lat,5), round(self.long,5), self.price, self.distance2end]
+        return [self.id, self.name, self.callsign, round(self.lat,5), round(self.long,5), self.price100, self.pricejeta, self.distance2end]
 
     def __str__(self):
-        return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]"
+        return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price100}, {self.pricejeta}, {self.distance2end}]"
 
     def __dict__(self):
-        return {"id": self.id, "name": self.name, "callsign": self.callsign, "lat": self.lat, "long": self.long, "price": self.price, "distance2end": self.distance2end}
+        return {"id": self.id, "name": self.name, "callsign": self.callsign, "lat": self.lat, "long": self.long, "price100": self.price100, "pricejeta": self.pricejeta, "distance2end": self.distance2end}
 
 
 # color help. Helps shade the colors when plotting
@@ -153,7 +154,7 @@ def generate_points(a1, a2, dist):
     new_long = np.arctan2(y,x)
     line_db = []
     for i, p in enumerate(f):
-        line_db.append(Airport(None,f"line_airport_{i+1}",None,new_lat[i],new_long[i],None))
+        line_db.append(Airport(None,f"line_airport_{i+1}",None,new_lat[i],new_long[i],None,None))
 
     return line_db
 
@@ -192,25 +193,44 @@ def get_airports(filename):
             else:
                 LL100price = 'na'
 
+            JETA = [p2, p4, p6]
+            JETA = [float(e) for e in JETA if '.' in e]
+            if len(JETA) > 0:
+                JETAprice = min(e for e in JETA if isinstance(e, float))
+            else:
+                JETAprice = 'na'
+
             # append every airport to the list, but set the price of airports without fuel to 'na'
-            airport = Airport(i,name,callsign,lat_radians,long_radians,LL100price)
+            airport = Airport(i,name,callsign,lat_radians,long_radians,LL100price,JETAprice)
             ap_list.append(airport)
     return ap_list
 
 
 # calculate the fuel cost and distance travelled
-def cost_function(ap_list, path, mpg):
+def cost_function(ap_list, path, mpg, fuel_type):
     c = 0
     dist = 0
-    for i, p in enumerate(path):
-        if i < len(path) - 1:
-            d = distance(ap_list[path[i+1]], ap_list[path[i]])
-            f = d / mpg
-            try:
-                c += f * ap_list[path[i+1]].price
-            except TypeError:
-                c += 100000
-            dist += d
+    if fuel_type == "100ll":
+        for i, p in enumerate(path):
+            if i < len(path) - 1:
+                d = distance(ap_list[path[i+1]], ap_list[path[i]])
+                f = d / mpg
+                try:
+                    c += f * ap_list[path[i+1]].price100
+                except TypeError:
+                    c += 100000
+                dist += d
+    elif fuel_type == "jeta":
+        for i, p in enumerate(path):
+            if i < len(path) - 1:
+                d = distance(ap_list[path[i + 1]], ap_list[path[i]])
+                f = d / mpg
+                try:
+                    c += f * ap_list[path[i + 1]].pricejeta
+                except TypeError:
+                    c += 100000
+                dist += d
+
     return c, dist
 
 
@@ -257,16 +277,14 @@ def db_linefilter(db, line_db, min_distance):
     return db
 
 
-def processing(db, fuel_mileage, plott):
+def processing(db, fuel_mileage, fuel_type):
     route_list = []
     with open(paths_string, "r") as f2:
         lines = f2.readlines()
         for i, line in enumerate(lines):
             new_line = helper(line)
-            fc, dc = cost_function(db, new_line, fuel_mileage)
+            fc, dc = cost_function(db, new_line, fuel_mileage, fuel_type)
             route_list.append(Route(f"Route{i}", fc, dc, new_line, db))
-
-        # fig, (ax1, ax2) = plt.subplots(1, 2)
 
         if len(route_list) > 5:
             maxk = 5
@@ -274,9 +292,6 @@ def processing(db, fuel_mileage, plott):
             maxk = len(route_list)
             if maxk == 0:
                 raise Exception("No routes found. Try expanding 'max_stops', or increasing 'minimum_line_distance'")
-        # if plott:
-        #     world = gpd.read_file("ne_10m_admin_0_states/ne_10m_admin_1_states_provinces.shp")
-        #     ax = world.plot(color="white", edgecolor="black")
 
         # find the top 5 (or whatever maxk is) routes for both distance and fuel savings, and plot them
         for k in range(maxk):
@@ -291,9 +306,6 @@ def processing(db, fuel_mileage, plott):
                 latd.append(np.rad2deg(db[int(loc)].lat))
                 longd.append(np.rad2deg(db[int(loc)].long))
                 ap = db[loc]
-                # if plott:
-                #     ax1.annotate(ap.name, [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
-                #     ax1.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
 
             latf = []
             longf = []
@@ -301,38 +313,6 @@ def processing(db, fuel_mileage, plott):
                 latf.append(np.rad2deg(db[int(loc)].lat))
                 longf.append(np.rad2deg(db[int(loc)].long))
                 ap = db[loc]
-                # if plott:
-                #     ax2.annotate(f"{ap.name}", [np.rad2deg(ap.long), np.rad2deg(ap.lat)])
-                #     ax2.scatter(np.rad2deg(ap.long), np.rad2deg(ap.lat), color="black", s=8)
-
-            # convert airport geocordinates into a geopandas dataframes to plot routes on world map!
-            # if k == 0:
-            #     dist_d = {"Airport": route_mindistance.airport_path, "Latitude": latd, "Longitude": longd}
-            #     dist_df = pd.DataFrame(data=dist_d)
-            #     fuel_d = {"Airport": route_minfuel.airport_path, "Latitude": latf, "Longitude": longf}
-            #     fuel_df = pd.DataFrame(data=fuel_d)
-                # ap_dist = gpd.GeoDataFrame(dist_df, geometry=gpd.points_from_xy(-dist_df.Longitude, dist_df.Latitude),
-                #                            crs="EPSG:4326")
-                # ap_fuel = gpd.GeoDataFrame(fuel_df, geometry=gpd.points_from_xy(-fuel_df.Longitude, fuel_df.Latitude),
-                #                            crs="EPSG:4326")
-                # if plott:
-                #     ad = ap_dist.plot(ax=ax, color="blue", markersize=5)
-                #     af = ap_fuel.plot(ax=ax, color="green", markersize=5)
-
-            # if plott:
-            #     ax1.plot(longd, latd, color=chelp("blue", k, maxk - 1), label=f"d{k + 1}")
-            #     ax2.plot(longf, latf, color=chelp("green", k, maxk - 1), label=f"f{k + 1}")
-
-        # ax.set_xlim([min(dist_df.Longitude) * .9, max(dist_df.Longitude) * 1.1])
-        # ax.set_ylim([min(dist_df.Latitude) * .9, max(dist_df.Latitude) * 1.1])
-        # if plott:
-        #     ax1.invert_xaxis()
-        #     ax2.invert_xaxis()
-        #     ax1.set_title("Minimized distance routes")
-        #     ax2.set_title("Minimized fuel cost routes")
-        #     ax1.legend()
-        #     ax2.legend()
-        #     plt.show()
 
         # data output section! WHOOP!
         print("\nTop 5 Shortest Routes")
@@ -355,14 +335,13 @@ def processing(db, fuel_mileage, plott):
 # Start of pathfinding4.py
 # ----------------- #
 
-def main(u,v,aircraft_range, aircraft_mpg):
+def main(u,v,aircraft_range, aircraft_mpg, fuel_type):
     G = [[] * 1 for i in range(5000)]
     path = []
     visited = [0]*100000
     minimum_line_distance = 100
 
     # start timing
-    start_time = time.time()
 
     # create a database of airport objects and sort them by their distance to the destination airport
     airport_database = get_airports(airport_string)
@@ -393,9 +372,8 @@ def main(u,v,aircraft_range, aircraft_mpg):
     with open(paths_string, 'w') as f3:
         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
 
-    # Read path info from paths.txt; store paths as routes and compute cost and distance; plot data on map
-    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, aircraft_mpg, plott=False)
-    end_time = time.time()
+    # Read path info from paths.txt; store paths as routes and compute cost and distance
+    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, aircraft_mpg, fuel_type)
 
     airports_d = []
     airports_f = []
