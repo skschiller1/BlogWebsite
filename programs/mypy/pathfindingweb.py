@@ -385,6 +385,9 @@ def main(u,v,aircraft_range, aircraft_mpg):
             y = int(y)
             G[x].append(y)
 
+    max_stops = int(dist // aircraft_range + 1)
+    print(dist, aircraft_range, max_stops)
+
     # run the pathfinding algorithm
     path.append(ap_start.id)
     with open(paths_string, 'w') as f3:

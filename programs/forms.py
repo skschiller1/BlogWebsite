@@ -26,17 +26,23 @@ class AirportForm(forms.Form):
             choices=[(o.id, str(o.name)) for o in Airport.objects.filter(state=f" {state2}")])
 
 
-choices = ( ("Piper Cub", "Piper Cub"),
-            ("Cessna 172", "Cessna 172"),
-            ("Piper PA-28 160", "Piper PA-28 160"),
-            ("Cirrus SR20", "Cirrus SR20"),
-            ("Cessna 182", "Cessna 182"),
-            ("Beechcraft Bonanza G36", "Beechcraft Bonanza G36"),
-            ("Baron G58", "Baron G58"),
-            ("Airbus A320", "Airbus A320"),
-            ("Gulfstream G650", "Gulfstream G650"))
+choices = ( (0, "Piper Cub"),
+            (1, "Cessna 172"),
+            (2, "Piper PA-28 160"),
+            (3, "Cirrus SR20"),
+            (4, "Cessna 182"),
+            (5, "Beechcraft Bonanza G36"),
+            (6, "Baron G58"),
+            (7, "Airbus A320"),
+            (8, "Gulfstream G650"))
+
+
 
 class CallsignForm(forms.Form):
     callsign1 = forms.CharField(max_length=4, initial="KBHB")
     callsign2 = forms.CharField(max_length=4, initial="KJFK")
     aircraft = forms.ChoiceField(choices = choices, initial="Cessna 172")
+    cruise = forms.FloatField(min_value=0)
+    fuel_burn = forms.FloatField(min_value=0)
+    fuel_capacity = forms.FloatField(min_value=0)
+    reserves = forms.FloatField(min_value=0.1, max_value=0.4, initial=0.1)

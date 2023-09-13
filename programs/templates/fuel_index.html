@@ -23,8 +23,8 @@
             </table>
         </form>
         <p class="note">Note: The program time varies depending on the range of the aircraft, and the distance from the starting to the destination airport.
-            Specifically, shorter range aircraft require more stops, resulting in longer computation times. For the Cessna 172, airports within a range of 1380 miles
-            take fractions of a second, with airports further than 1380 miles but within 1880 miles taking around 1 minute.
+            Specifically, shorter range aircraft require more stops, resulting in longer computation times. For the Cessna 172, airports within a range of 1500 miles
+            take fractions of a second, with airports further than 1500 miles but within 2000 miles taking around 1 minute.
             Future updates will aim to reduce this computation time. </p>
         <p class="note">Note: The program filters out airports that are over 100 miles away from the great circle arc
             created by two airports. This will result in no solution for trips from Alaska or Hawaii to many state-side
@@ -60,11 +60,13 @@
     <div id="map"></div>
 
 </div>
+<script src="{% static 'formUpdate.js' %}"></script>
 <!-- Get the leaflet JavaScript file -->
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
 <script src="{% static 'map.js' %}"></script>
+
 
 
 {% endblock %}

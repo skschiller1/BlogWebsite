@@ -4,10 +4,6 @@ from .models import Airport
 from .mypy import pathfindingweb as pthfndr
 
 
-airplanes = {"Piper Cub": [168, 15.0], "Cessna 172": [513, 17.1], "Piper PA-28 160": [703, 15.1],
-"Cirrus SR20": [709, 15.3], "Cessna 182": [915, 13.9], "Beechcraft Bonanza G36": [960, 16.2],
-"Baron G58": [1480, 7.1], "Airbus A320": [3500, 0.75], "Gulfstream G650": [7000, 1.45]}
-
 # Create your views here.
 def fuel_index(request):
     context = {}
@@ -17,9 +13,15 @@ def fuel_index(request):
             if form.is_valid():
                 callsign1 = form.cleaned_data["callsign1"]
                 callsign2 = form.cleaned_data["callsign2"]
+                ac_cruise = form.cleaned_data["cruise"]
+                ac_fuelburn = form.cleaned_data["fuel_burn"]
+                ac_fuelcap = form.cleaned_data["fuel_capacity"]
+                ac_reserves = form.cleaned_data["reserves"]
                 ac = form.cleaned_data["aircraft"]
-                ac_range, ac_mileage = airplanes[ac]
-                results = pthfndr.main(str(callsign1), str(callsign2), int(ac_range), float(ac_mileage))
+                ac_range = (1 - ac_reserves) * ac_fuelcap / ac_fuelburn * ac_cruise  # consider 10% of total fuel capacity is used for reserves
+                ac_mileage = ac_cruise / ac_fuelburn
+
+                results = pthfndr.main(str(callsign1), str(callsign2), float(ac_range), float(ac_mileage))
     else:
         form = CallsignForm()
         results = None
