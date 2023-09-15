@@ -23,27 +23,21 @@
             </table>
         </form>
         <p class="note">Note: The program time varies depending on the range of the aircraft, and the distance from the starting to the destination airport.
-            Specifically, shorter range aircraft require more stops, resulting in longer computation times. For the Cessna 172, airports within a range of 1500 miles
-            take fractions of a second, with airports further than 1500 miles but within 2000 miles taking around 1 minute.
+            Specifically, shorter range aircraft require more stops, resulting in longer computation times.
+            The Piper PA28 and Piper Cub suffer specifically in sparse areas, and over long distances.
             Future updates will aim to reduce this computation time. </p>
-        <p class="note">Note: The program filters out airports that are over 100 miles away from the great circle arc
-            created by two airports. This will result in no solution for trips from Alaska or Hawaii to many state-side
-            airports in the NorthEast, due to a lack of airport data from Canada. Future updates will utilize Canadian
-            airports, along with more robust route-finding methods.</p>
-        <p class="note">Note: The program uses 100LL fuel prices to conduct calculations. The results returned for any jet aircraft
-            using Jet A are therefore inaccurate. Future updates will utilize Jet A prices for jets and 100LL for piston aircraft.</p>
     </div>
 </div>
 
 <div id="fuel-data">
-    <h3>Shortest Route: ${{ results.5.0 }}; {{ results.5.1 }} miles</h3>
+    <h3>Shortest Route: ${{ results.5.0 }}; {{ results.5.1 }} miles; {{ results.7 }} Flight hours</h3>
     {% for item in results.3 %}
-        <div>{{ item.2 }}, {{ item.1 }}<p class="dist-airports">{{ item.3 }},{{ item.4 }}</p></div>
+        <div><p class="dist-airports-data">{{ item.2 }}, {{ item.1 }}</p><p class="dist-airports">{{ item.3 }},{{ item.4 }}</p></div>
     {% endfor %}
 
-    <h3>Cheapest Route: ${{ results.4.0 }}; {{ results.4.1 }} miles</h3>
+    <h3>Cheapest Route: ${{ results.4.0 }}; {{ results.4.1 }} miles; {{ results.6 }} Flight hours</h3>
     {% for item in results.2 %}
-        <div>{{ item.2 }}, {{ item.1 }}<p class="fuel-airports">{{ item.3 }},{{ item.4 }}</p></div>
+        <div><p class="fuel-airports-data">{{ item.2 }}, {{ item.1 }}</p><p class="fuel-airports">{{ item.3 }},{{ item.4 }}</p></div>
     {% endfor %}
 
     <h3>Results:</h3>

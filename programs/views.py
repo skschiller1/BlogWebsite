@@ -16,12 +16,14 @@ def fuel_index(request):
                 ac_cruise = form.cleaned_data["cruise"]
                 ac_fuelburn = form.cleaned_data["fuel_burn"]
                 ac_fuelcap = form.cleaned_data["fuel_capacity"]
+                ac_fueltype = form.cleaned_data["fuel_type"]
                 ac_reserves = form.cleaned_data["reserves"]
                 ac = form.cleaned_data["aircraft"]
+                sigma = form.cleaned_data["sigma"]
                 ac_range = (1 - ac_reserves) * ac_fuelcap / ac_fuelburn * ac_cruise  # consider 10% of total fuel capacity is used for reserves
                 ac_mileage = ac_cruise / ac_fuelburn
 
-                results = pthfndr.main(str(callsign1), str(callsign2), float(ac_range), float(ac_mileage))
+                results = pthfndr.main(str(callsign1), str(callsign2), float(ac_range), float(ac_mileage), ac_fueltype, float(ac_cruise), int(sigma))
     else:
         form = CallsignForm()
         results = None

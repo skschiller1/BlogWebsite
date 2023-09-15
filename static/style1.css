@@ -1,7 +1,10 @@
 .nav-bar {
 background-color: rgba(137, 207, 240,.2);
 height: 60px;
+}
 
+#fuel-data p {
+    margin: 0;
 }
 
 #navbar a {

@@ -2,11 +2,10 @@ import numpy as np
 from math import sin, cos, asin, sqrt
 # import matplotlib.pyplot as plt
 # import geopandas as gpd
-import time
 import myblogsite.settings as settings
 
 
-airport_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/airport_data3.csv"
+airport_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/airport_data.csv"
 connectivity_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/connectivity.txt"
 paths_string = str(settings.BASE_DIR) + '/' + "programs/mypy/airport_data/paths.txt"
 
@@ -31,24 +30,23 @@ class Route:
 
 
 class Airport:
-    def __init__(self, id, name, callsign, lat, long, price100, pricejeta):
+    def __init__(self, id, name, callsign, lat, long, price):
         self.id = id
         self.name = name
         self.callsign = callsign
         self.lat = lat
         self.long = long
-        self.price100 = price100
-        self.pricejeta = pricejeta
+        self.price = price
         self.distance2end = None
 
     def __list__(self):
-        return [self.id, self.name, self.callsign, round(self.lat,5), round(self.long,5), self.price100, self.pricejeta, self.distance2end]
+        return [self.id, self.name, self.callsign, round(self.lat,5), round(self.long,5), self.price, self.distance2end]
 
     def __str__(self):
-        return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price100}, {self.pricejeta}, {self.distance2end}]"
+        return f"{self.id}: [{self.name}, {self.callsign}, {round(self.lat,5)}, {round(self.long,5)}, {self.price}, {self.distance2end}]"
 
     def __dict__(self):
-        return {"id": self.id, "name": self.name, "callsign": self.callsign, "lat": self.lat, "long": self.long, "price100": self.price100, "pricejeta": self.pricejeta, "distance2end": self.distance2end}
+        return {"id": self.id, "name": self.name, "callsign": self.callsign, "lat": self.lat, "long": self.long, "price": self.price, "distance2end": self.distance2end}
 
 
 # color help. Helps shade the colors when plotting
@@ -143,7 +141,7 @@ def solve(d,a1,a2):
 
 
 def generate_points(a1, a2, dist):
-    delta = dist / 6371 * 1.609  # convert to radians
+    delta = dist / 6371 * 1.852  # convert to radians
     f = np.linspace(0,1,20)
     a = np.sin((1-f)*delta) / np.sin(delta)
     b = np.sin(f*delta) / np.sin(delta)
@@ -154,7 +152,7 @@ def generate_points(a1, a2, dist):
     new_long = np.arctan2(y,x)
     line_db = []
     for i, p in enumerate(f):
-        line_db.append(Airport(None,f"line_airport_{i+1}",None,new_lat[i],new_long[i],None,None))
+        line_db.append(Airport(None,f"line_airport_{i+1}",None,new_lat[i],new_long[i],None))
 
     return line_db
 
@@ -168,7 +166,7 @@ def connectivity(airport_list,range):
                         f.write(f"{a.id},{ap.id}\n")
 
 
-def get_airports(filename):
+def get_airports(filename, fuel_type):
     with open(filename, 'r') as f:
         lines = f.readlines()
         ap_list = []
@@ -188,48 +186,39 @@ def get_airports(filename):
 
             LL100 = [p1, p3, p5]
             LL100 = [float(e) for e in LL100 if '.' in e]
-            if len(LL100) > 0:
-                LL100price = min(e for e in LL100 if isinstance(e, float))
-            else:
-                LL100price = 'na'
-
             JETA = [p2, p4, p6]
             JETA = [float(e) for e in JETA if '.' in e]
-            if len(JETA) > 0:
-                JETAprice = min(e for e in JETA if isinstance(e, float))
-            else:
-                JETAprice = 'na'
+
+            if fuel_type == "100ll":
+                if len(LL100) > 0:
+                    price = min(e for e in LL100 if isinstance(e, float))
+                else:
+                    price = 'na'
+            elif fuel_type == "jeta":
+                if len(JETA) > 0:
+                    price = min(e for e in JETA if isinstance(e, float))
+                else:
+                    price = 'na'
 
             # append every airport to the list, but set the price of airports without fuel to 'na'
-            airport = Airport(i,name,callsign,lat_radians,long_radians,LL100price,JETAprice)
+            airport = Airport(i,name,callsign,lat_radians,long_radians,price)
             ap_list.append(airport)
     return ap_list
 
 
 # calculate the fuel cost and distance travelled
-def cost_function(ap_list, path, mpg, fuel_type):
+def cost_function(ap_list, path, mpg):
     c = 0
     dist = 0
-    if fuel_type == "100ll":
-        for i, p in enumerate(path):
-            if i < len(path) - 1:
-                d = distance(ap_list[path[i+1]], ap_list[path[i]])
-                f = d / mpg
-                try:
-                    c += f * ap_list[path[i+1]].price100
-                except TypeError:
-                    c += 100000
-                dist += d
-    elif fuel_type == "jeta":
-        for i, p in enumerate(path):
-            if i < len(path) - 1:
-                d = distance(ap_list[path[i + 1]], ap_list[path[i]])
-                f = d / mpg
-                try:
-                    c += f * ap_list[path[i + 1]].pricejeta
-                except TypeError:
-                    c += 100000
-                dist += d
+    for i, p in enumerate(path):
+        if i < len(path) - 1:
+            d = distance(ap_list[path[i+1]], ap_list[path[i]])
+            f = d / mpg
+            try:
+                c += f * ap_list[path[i+1]].price
+            except TypeError:
+                c += 100000
+            dist += d
 
     return c, dist
 
@@ -240,7 +229,10 @@ def get_start_end(u,v, db):
             start = line
         if v in line.callsign:
             end = line
-    return start, end
+    try:
+        return start, end
+    except Exception as e:
+        raise Exception("start or end airport not found in airport database. Check spelling and availability of airport.")
 
 
 def sort_and_slice(u,v,db):
@@ -254,8 +246,6 @@ def sort_and_slice(u,v,db):
         ap.distance2end = distance(ap, v)
     db.sort(key=lambda x: x.distance2end, reverse=True)
     db_sliced = db[db.index(u):]
-    for i, ap in enumerate(db_sliced):
-        ap.id = i
     return db_sliced
 
 
@@ -272,7 +262,23 @@ def db_linefilter(db, line_db, min_distance):
             remove_list.append(ap)
     for ap in remove_list:
         db.remove(ap)
+    return db
+
+
+# return all the airports that have fuel less than the 1st standard deviation
+def standard_deviation(db, num):
+    samples = []
+    for ap in db:
+        samples.append(ap.price)
+    mean = np.average(samples)
+    sig = np.std(samples)
+    remove_list = []
     for i, ap in enumerate(db):
+        if ap.price > mean + num * sig and i != 0 and i != len(db) - 1:
+            remove_list.append(ap)
+    for ap in remove_list:
+        db.remove(ap)
+    for i, ap in enumerate(db):  # compute the new airport IDs. Not 100% sure I need to do this
         ap.id = i
     return db
 
@@ -291,7 +297,8 @@ def processing(db, fuel_mileage, fuel_type):
         else:
             maxk = len(route_list)
             if maxk == 0:
-                raise Exception("No routes found. Try expanding 'max_stops', or increasing 'minimum_line_distance'")
+                # raise Exception("No routes found. Try expanding 'max_stops', or increasing 'minimum_line_distance'")
+                return -1
 
         # find the top 5 (or whatever maxk is) routes for both distance and fuel savings, and plot them
         for k in range(maxk):
@@ -335,7 +342,7 @@ def processing(db, fuel_mileage, fuel_type):
 # Start of pathfinding4.py
 # ----------------- #
 
-def main(u,v,aircraft_range, aircraft_mpg, fuel_type):
+def main(u,v,aircraft_range, aircraft_mpg, fuel_type, aircraft_cruise, sigma):
     G = [[] * 1 for i in range(5000)]
     path = []
     visited = [0]*100000
@@ -344,16 +351,17 @@ def main(u,v,aircraft_range, aircraft_mpg, fuel_type):
     # start timing
 
     # create a database of airport objects and sort them by their distance to the destination airport
-    airport_database = get_airports(airport_string)
+    airport_database = get_airports(airport_string, fuel_type)
     ap_start, ap_end = get_start_end(u,v,airport_database)
     prelim_database = sort_and_slice(ap_start, ap_end, airport_database)
 
     dist = distance(ap_start, ap_end)
     points = generate_points(ap_start, ap_end, dist)
     sorted_database = db_linefilter(prelim_database,points,minimum_line_distance)
+    sorted_reduced_database = standard_deviation(sorted_database, sigma)
 
     # find the connectivity of the airports, using the range of a cessna as a reference
-    connectivity(sorted_database,aircraft_range)
+    connectivity(sorted_reduced_database,aircraft_range)
 
     # store the connectivity in a matrix used by the recursive program?
     with open(connectivity_string, "r") as f:
@@ -373,20 +381,56 @@ def main(u,v,aircraft_range, aircraft_mpg, fuel_type):
         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
 
     # Read path info from paths.txt; store paths as routes and compute cost and distance
-    fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, aircraft_mpg, fuel_type)
+    try:
+        fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_reduced_database, aircraft_mpg, fuel_type)
+    except:
+        max_stops += 1
+        path = []
+        path.append(ap_start.id)
+        with open(paths_string, 'w') as f3:
+            dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
+        try:
+            fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_reduced_database, aircraft_mpg, fuel_type)
+        except:
+            raise Exception("No Routes found. Try increasing 'max_stops' or 'minimum_line_distance'.")
+            # max_stops += 1
+            # path = []
+            # path.append(ap_start.id)
+            # with open(paths_string, 'w') as f3:
+            #     dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
+            # try:
+            #     fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_reduced_database, aircraft_mpg, fuel_type)
+            # except:
+            #     max_stops += 2
+            #     path = []
+            #     path.append(ap_start.id)
+            #     with open(paths_string, 'w') as f3:
+            #         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
+            #     fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_reduced_database, aircraft_mpg, fuel_type)
+
+    # if len(min_dist) == 1:
+    #     max_stops += 1
+    #     path = []
+    #     path.append(ap_start.id)
+    #     with open(paths_string, 'w') as f3:
+    #         dfs(visited, ap_start.id, ap_end.id, path, f3, max_stops, G)
+    #     fuel_saved, xtra_dist, min_dist, min_fuel = processing(sorted_database, aircraft_mpg, fuel_type)
+
 
     airports_d = []
     airports_f = []
     for i, item in enumerate(min_dist):
         if i == 0:
             for apid in item.path:
-                airports_d.append(sorted_database[apid].__list__())
+                airports_d.append(sorted_reduced_database[apid].__list__())
     for i, item in enumerate(min_fuel):
         if i == 0:
             for apid in item.path:
-                airports_f.append(sorted_database[apid].__list__())
+                airports_f.append(sorted_reduced_database[apid].__list__())
 
     return_list = [round(fuel_saved,2), round(xtra_dist,2), airports_f, airports_d,
                    [round(min_fuel[0].fuelcost,2), round(min_fuel[0].distance,2)],
-                   [round(min_dist[0].fuelcost,2), round(min_dist[0].distance,2)]]
+                   [round(min_dist[0].fuelcost,2), round(min_dist[0].distance,2)],
+                   round(min_fuel[0].distance / aircraft_cruise,2),
+                   round(min_dist[0].distance / aircraft_cruise,2)]
     return return_list
